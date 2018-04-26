@@ -99,7 +99,7 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
                      comparisons = NULL, hide.ns = FALSE, label.sep = ", ",
                      label = NULL, label.x.npc = "left", label.y.npc = "top",
                      label.x = NULL, label.y = NULL, tip.length = 0.03,
-                     symnum.args = list(), textsize=2
+                     symnum.args = list(), textsize=2,
                      geom = "text", position = "identity",  na.rm = FALSE, show.legend = NA,
                     inherit.aes = TRUE, ...) {
 
