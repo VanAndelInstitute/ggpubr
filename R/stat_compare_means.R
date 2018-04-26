@@ -142,7 +142,7 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
                           test = method, test.args = method.args,
                           step_increase = step_increase, size = size, color = color,
                           map_signif_level = map_signif_level, position = position, tip_length = tip.length,
-                          data = data, textsize=0.02)
+                          data = data, ...)
   }
 
   else{
