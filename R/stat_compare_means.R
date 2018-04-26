@@ -138,6 +138,7 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
     }
 
     step_increase <- ifelse(is.null(label.y), 0.12, 0)
+    saveRDF(data, file="temp.rdf")
     ggsignif::geom_signif(comparisons = comparisons, y_position = label.y,
                           test = method, test.args = method.args,
                           step_increase = step_increase, size = size, color = color,
