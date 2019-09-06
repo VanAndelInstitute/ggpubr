@@ -121,7 +121,7 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
     if(is.null(label)) label <- "p.format"
 
     if(.is_p.signif_in_mapping(mapping) | (label %in% "p.signif"))
-      {
+    {
       map_signif_level <- c("****"=0.0001, "***"=0.001, "**"=0.01,  "*"=0.05, "ns"=1)
       if(hide.ns) map_signif_level <- .hide_ns(map_signif_level)
     }
@@ -137,14 +137,6 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
       if(hide.ns) map_signif_level <- .hide_ns(map_signif_level)
     }
 
-<<<<<<< HEAD
-    step_increase <- ifelse(is.null(label.y), 0.2, 0)
-    ggsignif::geom_signif(comparisons = comparisons, y_position = label.y,
-                          test = method, test.args = method.args,
-                          step_increase = step_increase, size = size, color = color,
-                          map_signif_level = map_signif_level, position = position, tip_length = tip.length,
-                          data = data, textsize=textsize)
-=======
     if(missing(step.increase)){
       step.increase <- ifelse(is.null(label.y), 0.12, 0)
     }
@@ -153,7 +145,6 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
                           step_increase = step.increase, size = bracket.size, textsize = size, color = color,
                           map_signif_level = map_signif_level, tip_length = tip.length,
                           data = data)
->>>>>>> upstream/master
   }
 
   else{
@@ -175,114 +166,114 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
 
 
 StatCompareMeans<- ggproto("StatCompareMeans", Stat,
-                  required_aes = c("x", "y"),
-                  default_aes = aes(hjust = ..hjust.., vjust = ..vjust..),
+                           required_aes = c("x", "y"),
+                           default_aes = aes(hjust = ..hjust.., vjust = ..vjust..),
 
-                  compute_panel = function(data, scales, method, method.args,
-                                           paired, ref.group, symnum.args,
-                                           hide.ns, label.x.npc, label.y.npc,
-                                           label.x, label.y, label.sep)
-                    {
-                    . <- x <- NULL
-                    .is.multiple.grouping.vars <- !all(data$x == data$group)
+                           compute_panel = function(data, scales, method, method.args,
+                                                    paired, ref.group, symnum.args,
+                                                    hide.ns, label.x.npc, label.y.npc,
+                                                    label.x, label.y, label.sep)
+                           {
+                             . <- x <- NULL
+                             .is.multiple.grouping.vars <- !all(data$x == data$group)
 
-                    if(!is.null(ref.group)) {
-                      if(ref.group != ".all.") ref.group <- scales$x$map(ref.group)
-                    }
+                             if(!is.null(ref.group)) {
+                               if(ref.group != ".all.") ref.group <- scales$x$map(ref.group)
+                             }
 
-                    # Guess the number of group to be compared
-                    #::::::::::::::::::::::::::::::::::::::::::::::::::
-                    if(.is.multiple.grouping.vars)
-                      x.levels <- .levels(data$group)
-                    else x.levels <- .levels(data$x)
-                    two.groups <- length(x.levels) == 2 | !is.null(ref.group)
-                    multi.groups <- length(x.levels) > 2
+                             # Guess the number of group to be compared
+                             #::::::::::::::::::::::::::::::::::::::::::::::::::
+                             if(.is.multiple.grouping.vars)
+                               x.levels <- .levels(data$group)
+                             else x.levels <- .levels(data$x)
+                             two.groups <- length(x.levels) == 2 | !is.null(ref.group)
+                             multi.groups <- length(x.levels) > 2
 
-                    # Guess the test to be performed
-                    #::::::::::::::::::::::::::::::::::::::::::::::::::
-                    if(two.groups & is.null(method))
-                      method <- "wilcox.test"
-                    else if(multi.groups & is.null(method))
-                      method <- "kruskal.test"
+                             # Guess the test to be performed
+                             #::::::::::::::::::::::::::::::::::::::::::::::::::
+                             if(two.groups & is.null(method))
+                               method <- "wilcox.test"
+                             else if(multi.groups & is.null(method))
+                               method <- "kruskal.test"
 
-                    # Perform group comparisons
-                    #::::::::::::::::::::::::::::::::::::::::::::::::::
-                    if(!is.null(ref.group))
-                      ref.group <- as.character(ref.group)
+                             # Perform group comparisons
+                             #::::::::::::::::::::::::::::::::::::::::::::::::::
+                             if(!is.null(ref.group))
+                               ref.group <- as.character(ref.group)
 
-                    method.args <- method.args %>%
-                      .add_item(data = data, method = method,
-                                paired = paired, ref.group = ref.group,
-                                symnum.args = symnum.args)
+                             method.args <- method.args %>%
+                               .add_item(data = data, method = method,
+                                         paired = paired, ref.group = ref.group,
+                                         symnum.args = symnum.args)
 
-                    if(.is.multiple.grouping.vars){
-                      method.args <- method.args %>%
-                        .add_item(formula = y ~ group, group.by = "x")
-                      .test <- do.call(compare_means, method.args)
-                    }
-                    else{
-                      method.args <- method.args %>%
-                        .add_item(formula = y ~ x)
-                      .test <- do.call(compare_means, method.args)
-                    }
+                             if(.is.multiple.grouping.vars){
+                               method.args <- method.args %>%
+                                 .add_item(formula = y ~ group, group.by = "x")
+                               .test <- do.call(compare_means, method.args)
+                             }
+                             else{
+                               method.args <- method.args %>%
+                                 .add_item(formula = y ~ x)
+                               .test <- do.call(compare_means, method.args)
+                             }
 
-                    pvaltxt <- ifelse(.test$p < 2.2e-16, "p < 2.2e-16",
-                                      paste("p =", signif(.test$p, 2)))
-                    .test$label <- paste(.test$method, pvaltxt, sep =  label.sep)
+                             pvaltxt <- ifelse(.test$p < 2.2e-16, "p < 2.2e-16",
+                                               paste("p =", signif(.test$p, 2)))
+                             .test$label <- paste(.test$method, pvaltxt, sep =  label.sep)
 
-                    # Options for label positioning
-                    #::::::::::::::::::::::::::::::::::::::::::::::::::
-                    label.opts <- list(data = data, scales = scales,
-                                       label.x.npc = label.x.npc, label.y.npc = label.y.npc,
-                                       label.x = label.x, label.y = label.y,
-                                       symnum.args = symnum.args, .by = "panel" )
+                             # Options for label positioning
+                             #::::::::::::::::::::::::::::::::::::::::::::::::::
+                             label.opts <- list(data = data, scales = scales,
+                                                label.x.npc = label.x.npc, label.y.npc = label.y.npc,
+                                                label.x = label.x, label.y = label.y,
+                                                symnum.args = symnum.args, .by = "panel" )
 
-                    if(.is.multiple.grouping.vars){
+                             if(.is.multiple.grouping.vars){
 
-                      if(is.null(label.x) & length(label.x.npc) == 1)
-                        label.opts$label.x <- .test$x
+                               if(is.null(label.x) & length(label.x.npc) == 1)
+                                 label.opts$label.x <- .test$x
 
-                      .label.pms <- label.opts %>%
-                        .add_item(group.ids = .test$x) %>%
-                        do.call(.label_params_by_group, .) # Returns a data frame with label: x, y, hjust, vjust
-                      # .test <- dplyr::select(.test, -x)
-                      .label.pms <- dplyr::select(.label.pms, -x)
+                               .label.pms <- label.opts %>%
+                                 .add_item(group.ids = .test$x) %>%
+                                 do.call(.label_params_by_group, .) # Returns a data frame with label: x, y, hjust, vjust
+                               # .test <- dplyr::select(.test, -x)
+                               .label.pms <- dplyr::select(.label.pms, -x)
 
-                    }
+                             }
 
-                    else{
-                      .label.pms <- label.opts %>%
-                        do.call(.label_params, .) %>% # Returns a data frame with label: x, y, hjust, vjust
-                        dplyr::mutate(hjust = 0.2)
-                    }
-                    if(!is.null(ref.group)){
-                      group.ids <- as.numeric(.test$group2)
-                      if(!is.null(label.y) & ref.group != ".all."){
-                        if(length(label.y) == length(group.ids))
-                          label.opts$label.y <- c(0, label.y)
-                      }
-                      .label.pms <- label.opts %>%
-                        .add_item(group.ids = group.ids) %>%
-                        do.call(.label_params_by_group, .)
-                    }
+                             else{
+                               .label.pms <- label.opts %>%
+                                 do.call(.label_params, .) %>% # Returns a data frame with label: x, y, hjust, vjust
+                                 dplyr::mutate(hjust = 0.2)
+                             }
+                             if(!is.null(ref.group)){
+                               group.ids <- as.numeric(.test$group2)
+                               if(!is.null(label.y) & ref.group != ".all."){
+                                 if(length(label.y) == length(group.ids))
+                                   label.opts$label.y <- c(0, label.y)
+                               }
+                               .label.pms <- label.opts %>%
+                                 .add_item(group.ids = group.ids) %>%
+                                 do.call(.label_params_by_group, .)
+                             }
 
-                    res <- cbind(.test, .label.pms)
+                             res <- cbind(.test, .label.pms)
 
-                    if(!is.null(ref.group)){
-                      # Set label x value to group names
-                      other.group.index <- as.numeric(res$group2)
-                      res$x <- scales$x$range$range[other.group.index ]
-                      res <- res %>% dplyr::mutate(hjust = 0.5)
-                    }
+                             if(!is.null(ref.group)){
+                               # Set label x value to group names
+                               other.group.index <- as.numeric(res$group2)
+                               res$x <- scales$x$range$range[other.group.index ]
+                               res <- res %>% dplyr::mutate(hjust = 0.5)
+                             }
 
-                    if(hide.ns){
-                      p.signif <- res$p.signif
-                      p.format <- res$p.format
-                      p.signif[p.signif == "ns"] <- " "
-                      res$p.signif <- p.signif
-                    }
-                    res
-                  }
+                             if(hide.ns){
+                               p.signif <- res$p.signif
+                               p.format <- res$p.format
+                               p.signif[p.signif == "ns"] <- " "
+                               res$p.signif <- p.signif
+                             }
+                             res
+                           }
 
 )
 
@@ -335,6 +326,7 @@ StatCompareMeans<- ggproto("StatCompareMeans", Stat,
   names(x) <- n
   x
 }
+
 
 
 
