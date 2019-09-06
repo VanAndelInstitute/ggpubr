@@ -1,11 +1,19 @@
+url: https://rpkgs.datanovia.com/ggpubr
+
 templates:
   params:
     bootswatch: lumen
+    ganalytics: UA-54921687-5
+    docsearch:
+      api_key: 6417dc1a4a7896d9002b8ad567f92f4c
+      index_name: ggpubr
+
 reference:
   - title: Plot One Variable - X, Continuous
     desc:  Visualize distributions.
     contents:
       - ggdensity
+      - stat_overlay_normal_density
       - gghistogram
       - ggecdf
       - ggqqplot
@@ -20,6 +28,7 @@ reference:
       - ggline
       - ggerrorplot
       - ggpie
+      - ggdonutchart
       - ggdotchart
   - title: Plot Two Continuous Variables
     desc: Scatter plots
@@ -36,6 +45,8 @@ reference:
     contents:
       - compare_means
       - stat_compare_means
+      - stat_pvalue_manual
+      - geom_bracket
   - title: Plot Tables and Paragraphs
     contents:
       - ggtexttable
@@ -92,6 +103,8 @@ reference:
       - stat_chull
       - stat_conf_ellipse
       - stat_mean
+      - stat_central_tendency
+      - reexports
 
 
 

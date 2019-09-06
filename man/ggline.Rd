@@ -4,16 +4,17 @@
 \alias{ggline}
 \title{Line plot}
 \usage{
-ggline(data, x, y, group = 1, numeric.x.axis = FALSE, combine = FALSE,
-  merge = FALSE, color = "black", palette = NULL, linetype = "solid",
-  plot_type = c("b", "l", "p"), size = 0.5, shape = 19,
-  point.size = size, point.color = color, title = NULL, xlab = NULL,
-  ylab = NULL, facet.by = NULL, panel.labs = NULL,
-  short.panel.labs = TRUE, select = NULL, remove = NULL, order = NULL,
-  add = "none", add.params = list(), error.plot = "errorbar",
-  label = NULL, font.label = list(size = 11, color = "black"),
-  label.select = NULL, repel = FALSE, label.rectangle = FALSE,
-  show.line.label = FALSE, ggtheme = theme_pubr(), ...)
+ggline(data, x, y, group = 1, numeric.x.axis = FALSE,
+  combine = FALSE, merge = FALSE, color = "black", palette = NULL,
+  linetype = "solid", plot_type = c("b", "l", "p"), size = 0.5,
+  shape = 19, point.size = size, point.color = color, title = NULL,
+  xlab = NULL, ylab = NULL, facet.by = NULL, panel.labs = NULL,
+  short.panel.labs = TRUE, select = NULL, remove = NULL,
+  order = NULL, add = "none", add.params = list(),
+  error.plot = "errorbar", label = NULL, font.label = list(size = 11,
+  color = "black"), label.select = NULL, repel = FALSE,
+  label.rectangle = FALSE, show.line.label = FALSE,
+  ggtheme = theme_pubr(), ...)
 }
 \arguments{
 \item{data}{a data frame}
@@ -104,11 +105,11 @@ se, ....}
 \item{label}{the name of the column containing point labels. Can be also a
 character vector with length = nrow(data).}
 
-\item{font.label}{a list which can contain the combination of the following elements: the size
-(e.g.: 14), the style (e.g.: "plain", "bold", "italic", "bold.italic") and
-the color (e.g.: "red") of labels. For example font.label = list(size = 14,
-face = "bold", color ="red"). To specify only the size and the style, use font.label =
-list(size = 14, face = "plain").}
+\item{font.label}{a list which can contain the combination of the following
+elements: the size (e.g.: 14), the style (e.g.: "plain", "bold", "italic",
+"bold.italic") and the color (e.g.: "red") of labels. For example font.label
+= list(size = 14, face = "bold", color ="red"). To specify only the size and
+the style, use font.label = list(size = 14, face = "plain").}
 
 \item{label.select}{can be of two formats: \itemize{ \item a character vector
 specifying some labels to show. \item a list containing one or the

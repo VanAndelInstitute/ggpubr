@@ -6,11 +6,12 @@
 \usage{
 stat_compare_means(mapping = NULL, data = NULL, method = NULL,
   paired = FALSE, method.args = list(), ref.group = NULL,
-  comparisons = NULL, hide.ns = FALSE, label.sep = ", ", label = NULL,
-  label.x.npc = "left", label.y.npc = "top", label.x = NULL,
-  label.y = NULL, tip.length = 0.03, symnum.args = list(),
-  geom = "text", position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  comparisons = NULL, hide.ns = FALSE, label.sep = ", ",
+  label = NULL, label.x.npc = "left", label.y.npc = "top",
+  label.x = NULL, label.y = NULL, tip.length = 0.03,
+  bracket.size = 0.3, step.increase = 0, symnum.args = list(),
+  geom = "text", position = "identity", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -29,8 +30,9 @@ data. All objects will be fortified to produce a data frame. See
 \code{\link[=fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame.}, and
-will be used as the layer data.}
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{method}{a character string indicating which method to be used for
 comparing means.}
@@ -81,6 +83,11 @@ for absolute positioning of the label. If too short they will be recycled.}
  lenth of each comparison. For example tip.length = c(0.01, 0.03).
 
  If too short they will be recycled.}
+
+\item{bracket.size}{Width of the lines of the bracket.}
+
+\item{step.increase}{numeric vector with the increase in fraction of total
+height for every additional comparison to minimize overlap.}
 
 \item{symnum.args}{a list of arguments to pass to the function
  \code{\link[stats]{symnum}} for symbolic number coding of p-values. For

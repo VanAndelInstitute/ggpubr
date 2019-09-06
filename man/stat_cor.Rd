@@ -6,8 +6,9 @@
 \usage{
 stat_cor(mapping = NULL, data = NULL, method = "pearson",
   label.sep = ", ", label.x.npc = "left", label.y.npc = "top",
-  label.x = NULL, label.y = NULL, geom = "text", position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+  label.x = NULL, label.y = NULL, output.type = "expression",
+  geom = "text", position = "identity", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -26,8 +27,9 @@ data. All objects will be fortified to produce a data frame. See
 \code{\link[=fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame.}, and
-will be used as the layer data.}
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{method}{a character string indicating which correlation coefficient (or
 covariance) is to be computed. One of "pearson" (default), "kendall", or
@@ -37,26 +39,28 @@ covariance) is to be computed. One of "pearson" (default), "kendall", or
 separate the correlation coefficient and the p.value.}
 
 \item{label.x.npc, label.y.npc}{can be \code{numeric} or \code{character}
-  vector of the same length as the number of groups and/or panels. If too
-  short they will be recycled. \itemize{ \item If \code{numeric}, value
-  should be between 0 and 1. Coordinates to be used for positioning the
-  label, expressed in "normalized parent coordinates". \item If
-  \code{character}, allowed values include: i) one of c('right', 'left',
-  'center', 'centre', 'middle') for x-axis; ii) and one of c( 'bottom',
-  'top', 'center', 'centre', 'middle') for y-axis.}
+ vector of the same length as the number of groups and/or panels. If too
+ short they will be recycled. \itemize{ \item If \code{numeric}, value should
+ be between 0 and 1. Coordinates to be used for positioning the label,
+ expressed in "normalized parent coordinates". \item If \code{character},
+ allowed values include: i) one of c('right', 'left', 'center', 'centre',
+ 'middle') for x-axis; ii) and one of c( 'bottom', 'top', 'center', 'centre',
+ 'middle') for y-axis.}
 
-  If too short they will be recycled.}
+ If too short they will be recycled.}
 
 \item{label.x, label.y}{\code{numeric} Coordinates (in data units) to be used
 for absolute positioning of the label. If too short they will be recycled.}
+
+\item{output.type}{character One of "expression", "latex" or "text".}
 
 \item{geom}{The geometric object to use display the data}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{na.rm}{If FALSE (the default), removes missing values with a warning.
-If TRUE silently removes missing values.}
+\item{na.rm}{If FALSE (the default), removes missing values with a warning. If
+TRUE silently removes missing values.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -73,7 +77,8 @@ the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 \code{\link[ggplot2]{geom_label}}.}
 }
 \description{
-Add correlation coefficients with p-values to a scatter plot.
+Add correlation coefficients with p-values to a scatter plot. Can
+ be also used to add `R2`.
 }
 \examples{
 # Load data
@@ -90,6 +95,13 @@ sp <- ggscatter(df, x = "wt", y = "mpg",
    )
 # Add correlation coefficient
 sp + stat_cor(method = "pearson", label.x = 3, label.y = 30)
+
+# Use R2 instead of R
+ggscatter(df, x = "wt", y = "mpg", add = "reg.line") +
+ stat_cor(
+   aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
+  label.x = 3
+)
 
 # Color by groups and facet
 #::::::::::::::::::::::::::::::::::::::::::::::::::::

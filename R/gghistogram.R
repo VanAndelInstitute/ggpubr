@@ -12,13 +12,15 @@ NULL
 #' @param bins Number of bins. Defaults to 30.
 #' @param binwidth numeric value specifying bin width. use value between 0 and 1
 #'   when you have a strong dense dotplot. For example binwidth = 0.2.
-#'   \href{Read more about binwidth}{http://r4ds.had.co.nz/eda.html)}.
 #' @param add allowed values are one of "mean" or "median" (for adding mean or
 #'   median line, respectively).
 #' @param add.params parameters (color, size, linetype) for the argument 'add';
 #'   e.g.: add.params = list(color = "red").
 #' @param rug logical value. If TRUE, add marginal rug.
 #' @param add_density logical value. If TRUE, add density curves.
+#' @param position Position adjustment, either as a string, or the result of a
+#'   call to a position adjustment function. Allowed values include "identity",
+#'   "stack", "dodge".
 #' @param ... other arguments to be passed to
 #'   \code{\link[ggplot2]{geom_histogram}} and \code{\link{ggpar}}.
 #' @details The plot can be easily customized using the function ggpar(). Read
@@ -78,6 +80,7 @@ gghistogram <- function(data, x, y = "..count..", combine = FALSE, merge = FALSE
                         rug = FALSE, add_density = FALSE,
                         label = NULL, font.label = list(size = 11, color = "black"),
                         label.select = NULL, repel = FALSE, label.rectangle = FALSE,
+                        position = position_identity(),
                         ggtheme = theme_pubr(),
                         ...)
 {
@@ -92,7 +95,8 @@ gghistogram <- function(data, x, y = "..count..", combine = FALSE, merge = FALSE
     facet.by = facet.by, panel.labs = panel.labs, short.panel.labs = short.panel.labs,
     add = add, add.params = add.params, rug = rug, add_density = add_density,
     label = label, font.label = font.label, label.select = label.select,
-    repel = repel, label.rectangle = label.rectangle, ggtheme = ggtheme, ...)
+    repel = repel, label.rectangle = label.rectangle,
+    position = position, ggtheme = ggtheme, ...)
   if(!missing(data)) .opts$data <- data
   if(!missing(x)) .opts$x <- x
   if(!missing(y)) .opts$y <- y
@@ -128,6 +132,7 @@ gghistogram_core <- function(data, x, y = "..count..",
                       add = c("none", "mean", "median"),
                       add.params = list(linetype = "dashed"),
                       rug = FALSE, add_density = FALSE,
+                      position = position_identity(),
                       ggtheme = theme_classic(),
                       ...)
 {
@@ -160,7 +165,7 @@ gghistogram_core <- function(data, x, y = "..count..",
       geom_exec(geom_histogram, data = data,
                  color = color, fill = fill, size = size,
                  linetype = linetype, alpha = alpha, bins = bins, binwidth = binwidth,
-                 position = "identity", ...)
+                 position = position, ...)
 
   # Add mean/median
   if(add %in% c("mean", "median")){

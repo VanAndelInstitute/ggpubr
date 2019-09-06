@@ -19,11 +19,12 @@ ttheme(base_style = "default", base_size = 11, base_colour = "black",
   tbody.style = tbody_style(size = base_size))
 
 colnames_style(color = "black", face = "bold", size = 12,
-  fill = "grey80", linewidth = 1, linecolor = "white", parse = FALSE,
-  ...)
+  fill = "grey80", linewidth = 1, linecolor = "white",
+  parse = FALSE, ...)
 
-rownames_style(color = "black", face = "italic", size = 12, fill = NA,
-  linewidth = 1, linecolor = "white", parse = FALSE, ...)
+rownames_style(color = "black", face = "italic", size = 12,
+  fill = NA, linewidth = 1, linecolor = "white", parse = FALSE,
+  ...)
 
 tbody_style(color = "black", face = "plain", size = 12,
   fill = c("grey95", "grey90"), linewidth = 1, linecolor = "white",
@@ -51,9 +52,9 @@ and \code{ttheme_clean()}.}
 is "centre" for the body and header, and "right" for the row names. Left
 justification: \code{hjust = 0, x = 0.1}. Right justification: \code{hjust = 1, x = 0.9}.}
 
-\item{base_style}{charcter string the table style/theme. The available themes
+\item{base_style}{character string the table style/theme. The available themes
 are illustrated in the
-\href{http://www.sthda.com/english/rpkgs/ggpubr/files/ggtexttable-theme.pdf}{ggtexttable-theme.pdf}
+\href{https://rpkgs.datanovia.com/ggpubr/files/ggtexttable-theme.pdf}{ggtexttable-theme.pdf}
  file. Allowed values include one of \code{c("default", "blank", "classic",
 "minimal", "light", "lBlack", "lBlue", "lRed", "lGreen", "lViolet", "lCyan",
 "lOrange", "lBlackWhite", "lBlueWhite", "lRedWhite", "lGreenWhite",

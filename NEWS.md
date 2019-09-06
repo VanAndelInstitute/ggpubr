@@ -1,4 +1,112 @@
-# ggpubr 0.1.6.999
+# ggpubr 0.2.3.999
+
+
+## Minor change
+   
+- unnest adapted to tidyr 1.0.0
+
+# ggpubr 0.2.3
+  
+## New features
+   
+- New function `stat_central_tendency()` to add central tendency measures (mean, median, mode) to density and histogram plots
+- New function `stat_overlay_normal_density()` to overlay normal density plot (with the same mean and SD) to the density distribution of 'x'. 
+  
+## Minor changes
+  
+- The option `exact = FALSE` is no longer used when computing correlation in `stat_cor()` ([@tiagochst, #205](https://github.com/kassambara/ggpubr/issues/205))
+  
+  
+## Bug fixes
+   
+- `ggpie()` keeps now the default order of labels ([@WortJohn, #203](https://github.com/kassambara/ggpubr/pull/203))
+
+
+# ggpubr 0.2.2
+  
+## New fatures
+
+- New function `geom_bracket()` for adding brackets with label annotation to a ggplot. Helpers for adding p-value or significance levels to a plot.
+
+## Minor changes
+
+- `compare_means()` has been adapted to tidyr v1.0.0 ([@jennybc, #196](https://github.com/kassambara/ggpubr/pull/196))
+- `geom_exec()` now handles `geom_bracket()` arguments
+- New arguments `vjust`, `hide.ns`, `step.increase`, `step.group.by`, `color` and `linetype` added in `stat_pvalue_manual()`
+- `stat_pvalue_manual()` can now guess automatically the significance label column.
+- New argument `show.legend` added to `ggadd()` and `add_summary()` functions.
+  
+## Bug fixes
+   
+- Bug fixes in `gghistogram()`. Works now when the x variable is R keyword, such as var, mean, etc. ([#192](https://github.com/kassambara/ggpubr/issues/192))
+- In `ggline()`, error bars now react automatically to grouping by line type ([#191](https://github.com/kassambara/ggpubr/issues/191))
+
+
+# ggpubr 0.2.1
+   
+## Minor changes
+
+- New arguments `step.increase` added in `stat_compare_means()` to avoid overlap between brackets.
+- In `stat_pvalue_manual()` x axis variable is no longer automatically converted into factor. If your x variable is a factor, make sure that it is converted into factor.
+- `stat_pvalue_manual()` can automatically handle the output of rstatix tests
+- `ggbarplot()` and `ggviolin()` now automatically create error bars by groups when users forget the option `add.params = list(group = )` ([#183](https://github.com/kassambara/ggpubr/issues/183)).  
+- Now, `ggarrange()` works when either `ncol = 1` or `nrow = 1` ([@GegznaV, #141](https://github.com/kassambara/ggpubr/issues/144).
+- When method = "wilcox.test", the function `compare_means()` set automatically the option `exact = FALSE`. This is no longer the case ([@stemicha, #141](https://github.com/kassambara/ggpubr/issues/141). 
+- `stat_pvalue_manual()` now supports dodged grouped plots ([@emcnerny, #104](https://github.com/kassambara/ggpubr/issues/104)).
+- the argument `position` is now handled by `ggdotplot()` ([@Adam-JJJJJ, #178](https://github.com/kassambara/ggpubr/issues/178))
+
+## Bug fixes
+
+- Adding points works now for barplots grouped by fill color ([@elenichri](https://github.com/kassambara/ggpubr/issues/173)) 
+- `label.sep` argument works now in `ggscatter()` and `stat_cor()` ([@sbbmu, #150](https://github.com/kassambara/ggpubr/issues/150))
+- Fix in `ggscatter()` to avoid freezing when the `add` argument is incorrect ([@atakanekiz, #135](https://github.com/kassambara/ggpubr/issues/180)). 
+  
+
+# ggpubr 0.2
+
+## Bug fixes
+   
+- P-value for multiple comparisons by group (stat_compare_means()) are now correctly displayed ([@elisheva100, #135](https://github.com/kassambara/ggpubr/issues/135)).
+
+
+# ggpubr 0.1.9
+  
+## Minor changes
+   
+- ggsci palettes have been updated to add new palettes: nejm, jama, ucscgb, d3, locuszoom, igv, startrek, tron, futurama, simpsons ([@cbrueffer, #118](https://github.com/kassambara/ggpubr/pull/127)
+
+
+## Bug fixes
+   
+- The option `ref.group` was only considered when the grouping variable contains more than two levels. In that case, each level is compared against the specified reference group. Now, `ref.group` option is also considereded in two samples mean comparisons ([@OwenDonohoe, #118](https://github.com/kassambara/ggpubr/issues/118))
+
+- Now, `ggqqplot()` reacts to the argument `conf.int.level` ([@vsluydts, #123](https://github.com/kassambara/ggpubr/issues/123)
+- Added error bar color is now inherited from the main plot ([@JesseRop, #109](https://github.com/kassambara/ggpubr/issues/109)
+
+
+# ggpubr 0.1.8
+  
+  
+## New features
+ 
+- New arguments `bxp.errorbar` added to `ggboxplot()` for adding error bars at the top of the box plots ([@j3ypi, #105](https://github.com/kassambara/ggpubr/issues/105).
+- New function `stat_pvalue_manual()` for adding p-values generated elswhere ([@achamess, #81](https://github.com/kassambara/ggpubr/issues/81), [@grst, #65](https://github.com/kassambara/ggpubr/issues/65)).
+
+
+## Minor changes
+   
+- `alpha`option added to `ggviolin()` [@mtmatter, #77](https://github.com/kassambara/ggpubr/pull/77)
+- New argument `bracket.size` added to `stat_compare_means()` [@mtmatter, #43](https://github.com/kassambara/ggpubr/issues/43)
+- Now, the function `stat_cor()` supports R^2 as an option [@philament, #32](https://github.com/kassambara/ggpubr/issues/32)
+- New argument `position` added in `gghistogram()`. Allowed values include "identity", "stack", "dodge".
+- New argument `ci` added in `ggerrorplot()` [@abrar-alshaer, #94](https://github.com/kassambara/ggpubr/issues/94)
+
+## Bug fixes
+  
+- Now, `ggscatter()` can remove the letter 'a' from the legend, when the argument `show.legend.text = FALSE` specified [@atsyplenkov, #106](https://github.com/kassambara/ggpubr/issues/106).
+- Now, adding a `size` option to ggscatter `add.params` is supported [@retrogenomics, #94](https://github.com/kassambara/ggpubr/issues/53).
+
+# ggpubr 0.1.7
 
 ## New features
 
@@ -13,7 +121,10 @@
 ## Bug fixes
 
 - In `ggscatterhist()` the x variable was plotted two times, on both the plot x & y margins, instead of having, as expected, a) the x variable on the main plot x margin and 2) the y variable on the main plot y margin. This has been now fixed. 
- 
+- In previous version, `ggdotchart()` sorted automatically within groups when the `color` argument is specified, even when groups = NULL. This default behaviour has been now removed. Sorting withi groups is performed only when the argument `group` is specified ([@sfeds, #90](https://github.com/kassambara/ggpubr/issues/90)).
+- Now, `yticks.by` and  `xticks.by` work with NAs ([@j3ypi, #89](https://github.com/kassambara/ggpubr/issues/89)).
+   
+   
 # ggpubr 0.1.6
 
 ## New features

@@ -1,3 +1,4 @@
+^CRAN-RELEASE$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
@@ -5,4 +6,5 @@
 ^\.travis\.yml$
 ^cran-comments\.md$
 ^docs$
+^images$
 ^_pkgdown\.yml$

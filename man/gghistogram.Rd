@@ -10,8 +10,9 @@ gghistogram(data, x, y = "..count..", combine = FALSE, merge = FALSE,
   title = NULL, xlab = NULL, ylab = NULL, facet.by = NULL,
   panel.labs = NULL, short.panel.labs = TRUE, add = c("none", "mean",
   "median"), add.params = list(linetype = "dashed"), rug = FALSE,
-  add_density = FALSE, label = NULL, font.label = list(size = 11, color =
-  "black"), label.select = NULL, repel = FALSE, label.rectangle = FALSE,
+  add_density = FALSE, label = NULL, font.label = list(size = 11,
+  color = "black"), label.select = NULL, repel = FALSE,
+  label.rectangle = FALSE, position = position_identity(),
   ggtheme = theme_pubr(), ...)
 }
 \arguments{
@@ -50,8 +51,7 @@ be in [0, 1], where 0 is full transparency and 1 is no transparency.}
 \item{bins}{Number of bins. Defaults to 30.}
 
 \item{binwidth}{numeric value specifying bin width. use value between 0 and 1
-when you have a strong dense dotplot. For example binwidth = 0.2.
-\href{Read more about binwidth}{http://r4ds.had.co.nz/eda.html)}.}
+when you have a strong dense dotplot. For example binwidth = 0.2.}
 
 \item{title}{plot main title.}
 
@@ -87,11 +87,11 @@ e.g.: add.params = list(color = "red").}
 \item{label}{the name of the column containing point labels. Can be also a
 character vector with length = nrow(data).}
 
-\item{font.label}{a list which can contain the combination of the following elements: the size
-(e.g.: 14), the style (e.g.: "plain", "bold", "italic", "bold.italic") and
-the color (e.g.: "red") of labels. For example font.label = list(size = 14,
-face = "bold", color ="red"). To specify only the size and the style, use font.label =
-list(size = 14, face = "plain").}
+\item{font.label}{a list which can contain the combination of the following
+elements: the size (e.g.: 14), the style (e.g.: "plain", "bold", "italic",
+"bold.italic") and the color (e.g.: "red") of labels. For example font.label
+= list(size = 14, face = "bold", color ="red"). To specify only the size and
+the style, use font.label = list(size = 14, face = "plain").}
 
 \item{label.select}{can be of two formats: \itemize{ \item a character vector
 specifying some labels to show. \item a list containing one or the
@@ -107,6 +107,10 @@ text labels or not.}
 
 \item{label.rectangle}{logical value. If TRUE, add rectangle underneath the
 text, making it easier to read.}
+
+\item{position}{Position adjustment, either as a string, or the result of a
+call to a position adjustment function. Allowed values include "identity",
+"stack", "dodge".}
 
 \item{ggtheme}{function, ggplot2 theme name. Default value is theme_pubr().
 Allowed values include ggplot2 official themes: theme_gray(), theme_bw(),

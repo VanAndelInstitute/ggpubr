@@ -5,15 +5,16 @@
 \alias{theme_cleveland}
 \title{Cleveland's Dot Plots}
 \usage{
-ggdotchart(data, x, y, group = NULL, combine = FALSE, color = "black",
-  palette = NULL, shape = 19, size = NULL, dot.size = size,
-  sorting = c("ascending", "descending"), add = c("none", "segment"),
-  add.params = list(), x.text.col = TRUE, rotate = FALSE, title = NULL,
-  xlab = NULL, ylab = NULL, facet.by = NULL, panel.labs = NULL,
-  short.panel.labs = TRUE, select = NULL, remove = NULL, order = NULL,
-  label = NULL, font.label = list(size = 11, color = "black"),
-  label.select = NULL, repel = FALSE, label.rectangle = FALSE,
-  position = "identity", ggtheme = theme_pubr(), ...)
+ggdotchart(data, x, y, group = NULL, combine = FALSE,
+  color = "black", palette = NULL, shape = 19, size = NULL,
+  dot.size = size, sorting = c("ascending", "descending"),
+  add = c("none", "segment"), add.params = list(), x.text.col = TRUE,
+  rotate = FALSE, title = NULL, xlab = NULL, ylab = NULL,
+  facet.by = NULL, panel.labs = NULL, short.panel.labs = TRUE,
+  select = NULL, remove = NULL, order = NULL, label = NULL,
+  font.label = list(size = 11, color = "black"), label.select = NULL,
+  repel = FALSE, label.rectangle = FALSE, position = "identity",
+  ggtheme = theme_pubr(), ...)
 
 theme_cleveland(rotate = TRUE)
 }
@@ -90,11 +91,11 @@ labelled only by variable grouping levels.}
 
 \item{label}{the name of the column containing point labels.}
 
-\item{font.label}{a list which can contain the combination of the following elements: the size
-(e.g.: 14), the style (e.g.: "plain", "bold", "italic", "bold.italic") and
-the color (e.g.: "red") of labels. For example font.label = list(size = 14,
-face = "bold", color ="red"). To specify only the size and the style, use font.label =
-list(size = 14, face = "plain").}
+\item{font.label}{a list which can contain the combination of the following
+elements: the size (e.g.: 14), the style (e.g.: "plain", "bold", "italic",
+"bold.italic") and the color (e.g.: "red") of labels. For example font.label
+= list(size = 14, face = "bold", color ="red"). To specify only the size and
+the style, use font.label = list(size = 14, face = "plain").}
 
 \item{label.select}{can be of two formats: \itemize{ \item a character vector
 specifying some labels to show. \item a list containing one or the

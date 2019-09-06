@@ -4,14 +4,14 @@
 \alias{ggstripchart}
 \title{Stripcharts}
 \usage{
-ggstripchart(data, x, y, combine = FALSE, merge = FALSE, color = "black",
-  fill = "white", palette = NULL, title = NULL, xlab = NULL,
-  ylab = NULL, facet.by = NULL, panel.labs = NULL,
+ggstripchart(data, x, y, combine = FALSE, merge = FALSE,
+  color = "black", fill = "white", palette = NULL, title = NULL,
+  xlab = NULL, ylab = NULL, facet.by = NULL, panel.labs = NULL,
   short.panel.labs = TRUE, shape = 19, size = NULL, select = NULL,
-  remove = NULL, order = NULL, add = "mean_se", add.params = list(),
-  error.plot = "pointrange", label = NULL, font.label = list(size = 11,
-  color = "black"), label.select = NULL, repel = FALSE,
-  label.rectangle = FALSE, jitter = 0.2,
+  remove = NULL, order = NULL, add = "mean_se",
+  add.params = list(), error.plot = "pointrange", label = NULL,
+  font.label = list(size = 11, color = "black"), label.select = NULL,
+  repel = FALSE, label.rectangle = FALSE, jitter = 0.2,
   position = position_jitter(jitter), ggtheme = theme_pubr(), ...)
 }
 \arguments{
@@ -92,11 +92,11 @@ se, ....}
 \item{label}{the name of the column containing point labels. Can be also a
 character vector with length = nrow(data).}
 
-\item{font.label}{a list which can contain the combination of the following elements: the size
-(e.g.: 14), the style (e.g.: "plain", "bold", "italic", "bold.italic") and
-the color (e.g.: "red") of labels. For example font.label = list(size = 14,
-face = "bold", color ="red"). To specify only the size and the style, use font.label =
-list(size = 14, face = "plain").}
+\item{font.label}{a list which can contain the combination of the following
+elements: the size (e.g.: 14), the style (e.g.: "plain", "bold", "italic",
+"bold.italic") and the color (e.g.: "red") of labels. For example font.label
+= list(size = 14, face = "bold", color ="red"). To specify only the size and
+the style, use font.label = list(size = 14, face = "plain").}
 
 \item{label.select}{can be of two formats: \itemize{ \item a character vector
 specifying some labels to show. \item a list containing one or the

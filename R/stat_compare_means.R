@@ -36,7 +36,9 @@ NULL
 #'  If too short they will be recycled.
 #'@param label.x,label.y \code{numeric} Coordinates (in data units) to be used
 #'  for absolute positioning of the label. If too short they will be recycled.
-#'
+#'@param bracket.size Width of the lines of the bracket.
+#'@param step.increase numeric vector with the increase in fraction of total
+#'  height for every additional comparison to minimize overlap.
 #'@param ... other arguments to pass to \code{\link[ggplot2]{geom_text}} or
 #'  \code{\link[ggplot2]{geom_label}}.
 #'@param na.rm If FALSE (the default), removes missing values with a warning. If
@@ -95,13 +97,14 @@ NULL
 #'
 #'@export
 stat_compare_means <- function(mapping = NULL, data = NULL,
-                     method = NULL, paired = FALSE, method.args = list(), ref.group = NULL,
-                     comparisons = NULL, hide.ns = FALSE, label.sep = ", ",
-                     label = NULL, label.x.npc = "left", label.y.npc = "top",
-                     label.x = NULL, label.y = NULL, tip.length = 0.03,
-                     symnum.args = list(), textsize=2,
-                     geom = "text", position = "identity",  na.rm = FALSE, show.legend = NA,
-                    inherit.aes = TRUE, ...) {
+                               method = NULL, paired = FALSE, method.args = list(), ref.group = NULL,
+                               comparisons = NULL, hide.ns = FALSE, label.sep = ", ",
+                               label = NULL, label.x.npc = "left", label.y.npc = "top",
+                               label.x = NULL, label.y = NULL, tip.length = 0.03,
+                               bracket.size = 0.3, step.increase = 0,
+                               symnum.args = list(),
+                               geom = "text", position = "identity",  na.rm = FALSE, show.legend = NA,
+                               inherit.aes = TRUE, ...) {
 
   if(!is.null(comparisons)){
 
@@ -109,12 +112,9 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
     method <- method.info$method
 
     method.args <- .add_item(method.args, paired = paired)
-    if(method == "wilcox.test")
-      method.args$exact <- FALSE
-
 
     pms <- list(...)
-    size <- ifelse(is.null(pms$size), 0.3, pms$size)
+    size <- ifelse(is.null(pms$size), 3.88, pms$size)
     color <- ifelse(is.null(pms$color), "black", pms$color)
 
     map_signif_level <- FALSE
@@ -137,12 +137,23 @@ stat_compare_means <- function(mapping = NULL, data = NULL,
       if(hide.ns) map_signif_level <- .hide_ns(map_signif_level)
     }
 
+<<<<<<< HEAD
     step_increase <- ifelse(is.null(label.y), 0.2, 0)
     ggsignif::geom_signif(comparisons = comparisons, y_position = label.y,
                           test = method, test.args = method.args,
                           step_increase = step_increase, size = size, color = color,
                           map_signif_level = map_signif_level, position = position, tip_length = tip.length,
                           data = data, textsize=textsize)
+=======
+    if(missing(step.increase)){
+      step.increase <- ifelse(is.null(label.y), 0.12, 0)
+    }
+    ggsignif::geom_signif(comparisons = comparisons, y_position = label.y,
+                          test = method, test.args = method.args,
+                          step_increase = step.increase, size = bracket.size, textsize = size, color = color,
+                          map_signif_level = map_signif_level, tip_length = tip.length,
+                          data = data)
+>>>>>>> upstream/master
   }
 
   else{
@@ -196,6 +207,9 @@ StatCompareMeans<- ggproto("StatCompareMeans", Stat,
 
                     # Perform group comparisons
                     #::::::::::::::::::::::::::::::::::::::::::::::::::
+                    if(!is.null(ref.group))
+                      ref.group <- as.character(ref.group)
+
                     method.args <- method.args %>%
                       .add_item(data = data, method = method,
                                 paired = paired, ref.group = ref.group,

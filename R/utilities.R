@@ -10,6 +10,28 @@ NULL
 #' @importFrom dplyr summarise
 #' @importFrom dplyr everything
 #' @importFrom grid drawDetails
+#' @importFrom rlang !!
+#' @importFrom rlang !!!
+#' @importFrom rlang syms
+
+
+
+# Unnesting, adapt to tidyr 1.0.0
+unnest <- function(data, cols = "data", ...){
+  if(is_pkg_version_sup("tidyr", "0.8.3")){
+    results <- tidyr::unnest(data, cols = cols, ...)
+  }
+  else {results <- tidyr::unnest(data, ...)}
+  results
+}
+
+# Check if an installed package version is superior to a specified version
+# Version, pkg: character vector
+is_pkg_version_sup<- function(pkg, version){
+  vv <- as.character(utils::packageVersion(pkg))
+  cc <- utils::compareVersion(vv, version) > 0
+  cc
+}
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # Execute a geom_* function from ggplot2
@@ -334,16 +356,17 @@ p
 .set_ticksby <- function(p, xticks.by = NULL, yticks.by = NULL)
   {
     .data <- p$data
-    .mapping <- as.character(p$mapping)
+    # .mapping <- as.character(p$mapping)
+    .mapping <- .get_gg_xy_variables(p)
 
     if(!is.null(yticks.by)) {
       y <- .data[, .mapping["y"]]
-      ybreaks <- seq(0, max(y), by = yticks.by)
+      ybreaks <- seq(0, max(y, na.rm = TRUE), by = yticks.by)
       p <- p + scale_y_continuous(breaks = ybreaks)
     }
     else if(!is.null(xticks.by)) {
       x <- .data[, .mapping["x"]]
-      xbreaks <- seq(0, max(x), by = xticks.by)
+      xbreaks <- seq(0, max(x, na.rm = TRUE), by = xticks.by)
       p <- p + scale_x_continuous(breaks = xbreaks)
     }
     p
@@ -397,7 +420,8 @@ p
 
 
   # stat summary
-  .mapping <- as.character(p$mapping)
+  #.mapping <- as.character(p$mapping)
+  .mapping <- .get_gg_xy_variables(p)
   x <- .mapping["x"]
   y <- .mapping["y"]
 
@@ -614,10 +638,10 @@ p
       y <- intersect(y, colnames(data))
 
       if(.is_empty(y))
-        stop("Can't found the y elements in the data.")
+        stop("Can't find the y elements in the data.")
 
       else if(!.is_empty(not_found))
-        warning("Can't found the following element in the data: ",
+        warning("Can't find the following element in the data: ",
               .collapse(not_found))
     }
   }
@@ -807,6 +831,7 @@ p
                      label.select = NULL, repel = FALSE, label.rectangle = FALSE,
                      ggtheme = theme_pubr(),
                      fun_name = "", group = 1, # used only by ggline
+                     show.legend.text = NA,
                      ...)
   {
 
@@ -940,7 +965,8 @@ p
       .add_item(data = data, x = opts$x, y = opts$y,
                 label = label, label.select = label.select,
                 repel = repel, label.rectangle = label.rectangle, ggtheme = NULL,
-                grouping.vars = grouping.vars, facet.by = facet.by, position = geom.text.position)
+                grouping.vars = grouping.vars, facet.by = facet.by, position = geom.text.position,
+                show.legend = show.legend.text)
     p <- purrr::map(p,
                    function(p, label.opts){
                      . <- NULL
@@ -973,15 +999,28 @@ p
 
 
 # Get the mapping variables of the first layer
+#:::::::::::::::::::::::::::::::::::::::::::::::::
 .mapping <- function(p){
 
   if(is.null(p)) return(list())
 
-  res0 <- as.character(p$mapping)
-  res1 <- NULL
-  if(!.is_empty(p$layers))
-    res1 <- as.character(p$layers[[1]]$mapping)
-  c(res0, res1) %>%
+  . <- NULL
+
+  layer0.mapping <- as.character(p$mapping) %>% gsub("~", "", .)
+  layer0.mapping.labels <- p$mapping %>% names()
+  names(layer0.mapping) <- layer0.mapping.labels
+
+  layer1.mapping <- NULL
+
+  if(!.is_empty(p$layers)){
+    layer1.mapping <- p$layers[[1]]$mapping %>%
+      as.character() %>% gsub("~", "", .)
+    layer1.mapping.labels <- p$layers[[1]]$mapping %>%
+      names()
+    names(layer1.mapping) <- layer1.mapping.labels
+  }
+
+  c(layer0.mapping, layer1.mapping) %>%
     as.list()
 }
 
@@ -991,6 +1030,17 @@ p
   p + do.call(geom_exec, opts)
 }
 
+
+# Get ggplot2 x and y variable
+# ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+.get_gg_xy_variables <- function(p){
+  . <- NULL
+  x <- p$mapping['x'] %>% as.character() %>% gsub("~", "", .)
+  y <- p$mapping['y'] %>% as.character() %>% gsub("~", "", .)
+  xy <- c(x, y)
+  names(xy) <- c("x", "y")
+  return(xy)
+}
 
 # Add mean or median line
 # used by ggdensity and gghistogram
@@ -1006,10 +1056,13 @@ p
 
   add <- match.arg(add)
   data <- p$data
-  x <- .mapping(p)$x
+  # x <- .mapping(p)$x
+  .mapping <- .get_gg_xy_variables(p)
+  x <- .mapping["x"]
 
   if(!(add %in% c("mean", "median")))
     return(p)
+  compute_center <- switch(add, mean = mean, median = stats::median)
 
   # NO grouping variable
   if(.is_empty(grouping.vars)) {
@@ -1022,10 +1075,11 @@ p
   }
   # Case of grouping variable
   else {
-    data_sum <- desc_statby(data, measure.var = x, grps = grouping.vars)
-    names(data_sum)[which(names(data_sum) == add)] <- x
+    data_sum <- data %>%
+      group_by(!!!syms(grouping.vars)) %>%
+      summarise(.center = compute_center(!!sym(x), na.rm = TRUE))
     p <- p + geom_exec(geom_vline, data = data_sum,
-                       xintercept = x, color = color,
+                       xintercept = ".center", color = color,
                        linetype = linetype, size = size)
   }
 

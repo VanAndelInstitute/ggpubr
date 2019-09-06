@@ -10,9 +10,13 @@ There were no ERRORs, WARNINGs or NOTEs.
 I have also run R CMD check on downstream dependencies of ggpubr. 
 All packages that I could install passed.
 
+
 ## Update
-This is an update version 0.1.6 (see NEWS.md)
+
+This is an update version 0.2.3 (see NEWS.md).
 
 
-
+## Resubmission
+   
+In this version I fix an invalid URL in the README.md file
 
